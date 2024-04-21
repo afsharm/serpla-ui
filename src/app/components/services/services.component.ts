@@ -30,4 +30,8 @@ export class ServicesComponent {
   serviceEditCancel() {
     this.showEditComponent = false;
   }
+
+  serviceEditSubmitted() {
+    this.showEditComponent = false;
+  }
 }

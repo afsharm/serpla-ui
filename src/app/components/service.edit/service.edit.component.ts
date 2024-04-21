@@ -17,6 +17,7 @@ export class ServiceEditComponent {
   name = new FormControl('', [Validators.required]);
   errorMessage = '';
   @Output() onCancel = new EventEmitter();
+  @Output() onSubmitted = new EventEmitter();
 
   constructor() {
     merge(this.name.statusChanges, this.name.valueChanges)
@@ -34,5 +35,9 @@ export class ServiceEditComponent {
 
   cancelClicked() {
     this.onCancel.emit();
+  }
+
+  onSubmit() {
+    this.onSubmitted.emit();
   }
 }

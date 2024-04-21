@@ -1,4 +1,4 @@
-<form>
+<form (ngSubmit)="onSubmit()">
     <mat-form-field>
         <mat-label>Enter service name</mat-label>
         <input matInput placeholder="ABCDEF" [formControl]="name" (blur)="updateErrorMessage()" required>
