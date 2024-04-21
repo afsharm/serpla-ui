@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,8 +15,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export class ServiceEditComponent {
   name = new FormControl('', [Validators.required]);
-
   errorMessage = '';
+  @Output() onCancel = new EventEmitter();
 
   constructor() {
     merge(this.name.statusChanges, this.name.valueChanges)
@@ -32,4 +32,7 @@ export class ServiceEditComponent {
     }
   }
 
+  cancelClicked() {
+    this.onCancel.emit();
+  }
 }

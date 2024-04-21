@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { LayoutComponent } from '../layout/layout.component';
@@ -19,6 +19,15 @@ import { ServiceEditComponent } from '../service.edit/service.edit.component';
 
 export class ServicesComponent {
 
+  showEditComponent: boolean = false;
+
   constructor() { }
 
+  addServiceClicked() {
+    this.showEditComponent = true;
+  }
+
+  serviceEditCancel() {
+    this.showEditComponent = false;
+  }
 }
