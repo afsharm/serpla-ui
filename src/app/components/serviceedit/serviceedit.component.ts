@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-serviceedit',
+  selector: 'app-service-edit',
   standalone: true,
   imports: [],
   templateUrl: './serviceedit.component.html',

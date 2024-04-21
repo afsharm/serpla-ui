@@ -7,7 +7,7 @@ import {
 import { Service } from '../../models/service.model';
 
 @Component({
-  selector: 'app-servicelist',
+  selector: 'app-service-list',
   standalone: true,
   imports: [MatTable, MatCell, MatHeaderCell, MatHeaderRow, MatRow, MatTableModule],
   templateUrl: './servicelist.component.html',
