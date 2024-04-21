@@ -1,1 +1,12 @@
-<p>serviceedit works!</p>
+<form>
+    <mat-form-field>
+        <mat-label>Enter service name</mat-label>
+        <input matInput placeholder="ABCDEF" [formControl]="name" (blur)="updateErrorMessage()" required>
+        @if (name.invalid) {
+        <mat-error>{{errorMessage}}</mat-error>
+        }
+    </mat-form-field>
+    <br>
+    <button mat-raised-button type="submit">Save</button>
+    <button mat-raised-button>Cancel</button>
+</form>
