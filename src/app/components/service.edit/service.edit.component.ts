@@ -4,9 +4,9 @@ import { Component } from '@angular/core';
   selector: 'app-service-edit',
   standalone: true,
   imports: [],
-  templateUrl: './serviceedit.component.html',
-  styleUrl: './serviceedit.component.scss'
+  templateUrl: './service.edit.component.html',
+  styleUrl: './service.edit.component.scss'
 })
-export class ServiceeditComponent {
+export class ServiceEditComponent {
 
 }

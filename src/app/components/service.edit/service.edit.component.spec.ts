@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ServiceeditComponent } from './serviceedit.component';
+import { ServiceeditComponent } from './service.edit.component';
 
 describe('ServiceeditComponent', () => {
   let component: ServiceeditComponent;

@@ -10,10 +10,10 @@ import { Service } from '../../models/service.model';
   selector: 'app-service-list',
   standalone: true,
   imports: [MatTable, MatCell, MatHeaderCell, MatHeaderRow, MatRow, MatTableModule],
-  templateUrl: './servicelist.component.html',
-  styleUrl: './servicelist.component.scss'
+  templateUrl: './service.list.component.html',
+  styleUrl: './service.list.component.scss'
 })
-export class ServicelistComponent {
+export class ServiceListComponent {
   dataSource!: MatTableDataSource<Service>;
   displayedColumns: string[] = ['id', 'name'];
 

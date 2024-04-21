@@ -5,13 +5,13 @@ import { LayoutComponent } from '../layout/layout.component';
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatFormField } from '@angular/material/form-field';
-import { ServicelistComponent } from '../servicelist/servicelist.component';
-import { ServiceeditComponent } from '../serviceedit/serviceedit.component';
+import { ServiceListComponent } from '../service.list/service.list.component';
+import { ServiceEditComponent } from '../service.edit/service.edit.component';
 @Component({
   selector: 'app-services',
   standalone: true,
   imports: [MatToolbarModule, RouterLink, LayoutComponent, CommonModule,
-    MatFormField, MatPaginator, ServicelistComponent, ServiceeditComponent],
+    MatFormField, MatPaginator, ServiceListComponent, ServiceEditComponent],
   providers: [],
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss'
