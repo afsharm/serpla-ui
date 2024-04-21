@@ -4,6 +4,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ServiceService } from '../../services/service.service';
+import { ServiceCreate } from '../../models/service.model';
 
 @Component({
   selector: 'app-service-edit',
@@ -19,7 +21,7 @@ export class ServiceEditComponent {
   @Output() onCancel = new EventEmitter();
   @Output() onSubmitted = new EventEmitter();
 
-  constructor() {
+  constructor(private serviceService: ServiceService) {
     merge(this.name.statusChanges, this.name.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -38,6 +40,14 @@ export class ServiceEditComponent {
   }
 
   onSubmit() {
-    this.onSubmitted.emit();
+    const serviceCreate: ServiceCreate = { name: this.name.value };
+
+    this.serviceService.createService(serviceCreate).subscribe(response => {
+      console.log('Service created successfully:', response);
+      this.onSubmitted.emit();
+    }, error => {
+      console.error('Error creating service:', error);
+    });
+
   }
 }
