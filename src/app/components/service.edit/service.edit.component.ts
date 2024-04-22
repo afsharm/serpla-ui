@@ -1,42 +1,49 @@
-import { Component, EventEmitter, Input, Output, SimpleChange } from '@angular/core';
-import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { Component, DestroyRef, inject, input, output } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { merge } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ServiceService } from '../../services/service.service';
+import { MatInputModule } from '@angular/material/input';
 import { ServiceCreate } from '../../models/service.model';
+import { ServiceService } from '../../services/service.service';
 
 @Component({
-  selector: 'app-service-edit',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
+  selector: 'app-service-edit',
   templateUrl: './service.edit.component.html',
-  styleUrl: './service.edit.component.scss'
+  styleUrl: './service.edit.component.scss',
+  imports: [
+    FormsModule,
+    MatButton,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+  ],
 })
 
 export class ServiceEditComponent {
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly serviceService = inject(ServiceService);
 
-  @Output() onCancel = new EventEmitter();
-  @Output() onSubmitted = new EventEmitter();
-  @Input() serviceId!: number;
-
-  name = new FormControl('', [Validators.required]);
-  errorMessage = '';
+  readonly form = new FormGroup({
+    name: new FormControl('', [Validators.required])
+  });
   isEdit: boolean = false;
 
-  constructor(private serviceService: ServiceService) {
-    merge(this.name.statusChanges, this.name.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorMessage());
-  }
+  onCancel = output();
+  onSubmitted = output();
+  serviceId = input.required<number>();
 
-  updateErrorMessage() {
-    if (this.name.hasError('required')) {
-      this.errorMessage = 'You must enter a value';
-    } else {
-      this.errorMessage = '';
-    }
+  constructor() {
+    toObservable(this.serviceId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(id => this.prepareEdit(id));
   }
 
   cancelClicked() {
@@ -44,35 +51,35 @@ export class ServiceEditComponent {
   }
 
   onSubmit() {
-    const serviceCreate: ServiceCreate = { name: this.name.value };
+    if (this.form.invalid) {
+      return;
+    }
 
-    this.serviceService.createService(serviceCreate).subscribe(response => {
-      console.log('Service created successfully:', response);
-      this.onSubmitted.emit();
-    }, error => {
-      console.error('Error creating service:', error);
-    });
-
+    this.serviceService.createService(this.form.value as ServiceCreate)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          console.log('Service created successfully:', response);
+          this.onSubmitted.emit();
+        },
+        error: (error) => {
+          console.error('Error creating service:', error);
+        }
+      });
   }
 
   prepareEdit(serviceId: number) {
-    this.serviceService.getService(serviceId).subscribe(response => {
-      console.log('Service fetched successfully:', response);
-      this.name.setValue(response.name);
-      this.isEdit = true;
-    }, error => {
-      console.error('Error fetching service:', error);
-    });
-  }
-
-  ngOnChanges(changes: { [property: string]: SimpleChange }) {
-    // Extract changes to the input property by its name
-    let change: SimpleChange = changes['serviceId'];
-
-    // Whenever the data in the parent changes, this method gets triggered
-    // You can act on the changes here. You will have both the previous
-    // value and the  current value here.
-
-    this.prepareEdit(change.currentValue);
+    this.serviceService.getService(serviceId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          console.log('Service fetched successfully:', response);
+          this.form.patchValue(response);
+          this.isEdit = true;
+        },
+        error: (error) => {
+          console.error('Error fetching service:', error);
+        }
+      });
   }
 }
