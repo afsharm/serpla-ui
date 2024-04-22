@@ -21,6 +21,7 @@ export class ServicesComponent {
 
   showEditComponent: boolean = false;
   @ViewChild(ServiceListComponent) serviceListComponent!: ServiceListComponent;
+  toServiceId!: number;
 
   constructor() { }
 
@@ -35,5 +36,11 @@ export class ServicesComponent {
   serviceEditSubmitted() {
     this.serviceListComponent.refreshList();
     this.showEditComponent = false;
+  }
+
+  onUpdateService($event: any) {
+    console.log('serviceId', $event);
+    this.showEditComponent = true;
+    this.toServiceId = $event;
   }
 }

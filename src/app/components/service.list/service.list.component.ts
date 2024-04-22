@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ServiceService } from '../../services/service.service';
 import {
   MatTableDataSource, MatTable, MatTableModule, MatCell,
@@ -16,7 +16,8 @@ import { Service } from '../../models/service.model';
 })
 export class ServiceListComponent {
   dataSource!: MatTableDataSource<Service>;
-  displayedColumns: string[] = ['id', 'name', 'delete'];
+  displayedColumns: string[] = ['id', 'name', 'update', 'delete'];
+  @Output() onUpdate: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private serviceService: ServiceService) { }
 
@@ -43,5 +44,9 @@ export class ServiceListComponent {
       console.error('Error creating service:', error);
     });
 
+  }
+
+  updateItem(elementId: number) {
+    this.onUpdate.emit(elementId);
   }
 }

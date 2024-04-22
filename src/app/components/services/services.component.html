@@ -4,7 +4,8 @@
     <ng-container *ngIf="showEditComponent; then serviceEdit else serviceList"></ng-container>
 
     <ng-template #serviceEdit>
-        <app-service-edit (onCancel)="serviceEditCancel()" (onSubmitted)="serviceEditSubmitted()" />
+        <app-service-edit (onCancel)="serviceEditCancel()" (onSubmitted)="serviceEditSubmitted()"
+            [serviceId]="toServiceId" />
     </ng-template>
 
     <br />
@@ -13,6 +14,6 @@
         <button mat-raised-button (click)="addServiceClicked()">Add a new service</button>
     </ng-template>
 
-    <app-service-list />
+    <app-service-list (onUpdate)="onUpdateService($event)" />
 
 </app-layout>

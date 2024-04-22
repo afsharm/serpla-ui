@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChange } from '@angular/core';
 import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,10 +16,12 @@ import { ServiceCreate } from '../../models/service.model';
 })
 
 export class ServiceEditComponent {
+
   name = new FormControl('', [Validators.required]);
   errorMessage = '';
   @Output() onCancel = new EventEmitter();
   @Output() onSubmitted = new EventEmitter();
+  @Input() serviceId!: number;
 
   constructor(private serviceService: ServiceService) {
     merge(this.name.statusChanges, this.name.valueChanges)
@@ -49,5 +51,20 @@ export class ServiceEditComponent {
       console.error('Error creating service:', error);
     });
 
+  }
+
+  prepareEdit(serviceId: number) {
+    console.log('prepareEdit.serviceId', serviceId);
+  }
+
+  ngOnChanges(changes: { [property: string]: SimpleChange }) {
+    // Extract changes to the input property by its name
+    let change: SimpleChange = changes['serviceId'];
+
+    // Whenever the data in the parent changes, this method gets triggered
+    // You can act on the changes here. You will have both the previous
+    // value and the  current value here.
+
+    this.prepareEdit(change.currentValue);
   }
 }
