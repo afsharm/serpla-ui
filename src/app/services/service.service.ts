@@ -9,22 +9,25 @@ import { Service, ServiceCreate } from '../models/service.model';
 
 export class ServiceService {
   private baseApiUrl = 'http://localhost:5116';
-  private getServicesUrl = '/service';
-  private createServiceUrl = '/service';
-  private deleteServiceUrl = '/service';
+  private servicesUrl = '/service';
 
   constructor(private http: HttpClient) { }
 
   getServices(): Observable<Service[]> {
-    return this.http.get<Service[]>(this.baseApiUrl + this.getServicesUrl);
+    return this.http.get<Service[]>(this.baseApiUrl + this.servicesUrl);
+  }
+
+  getService(serviceId: number): Observable<Service> {
+    const url = `${this.baseApiUrl}${this.servicesUrl}/${serviceId}`;
+    return this.http.get<Service>(url);
   }
 
   createService(serviceCreate: ServiceCreate): Observable<any> {
-    return this.http.post<any>(this.baseApiUrl + this.createServiceUrl, serviceCreate);
+    return this.http.post<any>(this.baseApiUrl + this.servicesUrl, serviceCreate);
   }
 
   deleteService(serviceId: number) {
-    const url = `${this.baseApiUrl}${this.deleteServiceUrl}?serviceId=${serviceId}`;
+    const url = `${this.baseApiUrl}${this.servicesUrl}?serviceId=${serviceId}`;
     return this.http.delete<any>(url);
   }
 }

@@ -17,11 +17,13 @@ import { ServiceCreate } from '../../models/service.model';
 
 export class ServiceEditComponent {
 
-  name = new FormControl('', [Validators.required]);
-  errorMessage = '';
   @Output() onCancel = new EventEmitter();
   @Output() onSubmitted = new EventEmitter();
   @Input() serviceId!: number;
+
+  name = new FormControl('', [Validators.required]);
+  errorMessage = '';
+  isEdit: boolean = false;
 
   constructor(private serviceService: ServiceService) {
     merge(this.name.statusChanges, this.name.valueChanges)
@@ -54,7 +56,13 @@ export class ServiceEditComponent {
   }
 
   prepareEdit(serviceId: number) {
-    console.log('prepareEdit.serviceId', serviceId);
+    this.serviceService.getService(serviceId).subscribe(response => {
+      console.log('Service fetched successfully:', response);
+      this.name.setValue(response.name);
+      this.isEdit = true;
+    }, error => {
+      console.error('Error fetching service:', error);
+    });
   }
 
   ngOnChanges(changes: { [property: string]: SimpleChange }) {
