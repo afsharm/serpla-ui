@@ -1,12 +1,14 @@
-<form (ngSubmit)="onSubmit()">
-    <mat-form-field>
-        <mat-label>Enter service name</mat-label>
-        <input matInput placeholder="ABCDEF" [formControl]="name" (blur)="updateErrorMessage()" required>
-        @if (name.invalid) {
-        <mat-error>{{errorMessage}}</mat-error>
-        }
-    </mat-form-field>
-    <br>
-    <button mat-raised-button type="submit">Save</button>
-    <button mat-raised-button (click)="cancelClicked()">Cancel</button>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Enter service name</mat-label>
+    <input matInput placeholder="ABCDEF" formControlName="name" required>
+
+    @if (form.get('name')?.invalid) {
+      <mat-error>You must enter a value</mat-error>
+    }
+
+  </mat-form-field>
+  <br>
+  <button mat-raised-button type="submit">Save</button>
+  <button mat-raised-button type="button" (click)="cancelClicked()">Cancel</button>
 </form>
