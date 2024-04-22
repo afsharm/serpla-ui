@@ -11,6 +11,7 @@ export class ServiceService {
   private baseApiUrl = 'http://localhost:5116';
   private getServicesUrl = '/service';
   private createServiceUrl = '/service';
+  private deleteServiceUrl = '/service';
 
   constructor(private http: HttpClient) { }
 
@@ -20,5 +21,10 @@ export class ServiceService {
 
   createService(serviceCreate: ServiceCreate): Observable<any> {
     return this.http.post<any>(this.baseApiUrl + this.createServiceUrl, serviceCreate);
+  }
+
+  deleteService(serviceId: number) {
+    const url = `${this.baseApiUrl}${this.deleteServiceUrl}?serviceId=${serviceId}`;
+    return this.http.delete<any>(url);
   }
 }

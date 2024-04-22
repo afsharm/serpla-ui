@@ -4,18 +4,19 @@ import {
   MatTableDataSource, MatTable, MatTableModule, MatCell,
   MatHeaderCell, MatHeaderRow, MatRow
 } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 import { Service } from '../../models/service.model';
 
 @Component({
   selector: 'app-service-list',
   standalone: true,
-  imports: [MatTable, MatCell, MatHeaderCell, MatHeaderRow, MatRow, MatTableModule],
+  imports: [MatTable, MatCell, MatHeaderCell, MatHeaderRow, MatRow, MatTableModule, MatIconModule],
   templateUrl: './service.list.component.html',
   styleUrl: './service.list.component.scss'
 })
 export class ServiceListComponent {
   dataSource!: MatTableDataSource<Service>;
-  displayedColumns: string[] = ['id', 'name'];
+  displayedColumns: string[] = ['id', 'name', 'delete'];
 
   constructor(private serviceService: ServiceService) { }
 
@@ -34,4 +35,13 @@ export class ServiceListComponent {
     );
   }
 
+  deleteItem(elementId: number) {
+    this.serviceService.deleteService(elementId).subscribe(response => {
+      console.log('Service deleted successfully:', response);
+      this.refreshList();
+    }, error => {
+      console.error('Error creating service:', error);
+    });
+
+  }
 }
