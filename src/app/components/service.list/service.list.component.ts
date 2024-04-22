@@ -20,6 +20,10 @@ export class ServiceListComponent {
   constructor(private serviceService: ServiceService) { }
 
   ngOnInit(): void {
+    this.refreshList();
+  }
+
+  refreshList() {
     this.serviceService.getServices().subscribe(
       (services: Service[]) => {
         this.dataSource = new MatTableDataSource(services);

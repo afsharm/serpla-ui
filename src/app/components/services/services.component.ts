@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { LayoutComponent } from '../layout/layout.component';
@@ -20,6 +20,7 @@ import { ServiceEditComponent } from '../service.edit/service.edit.component';
 export class ServicesComponent {
 
   showEditComponent: boolean = false;
+  @ViewChild(ServiceListComponent) serviceListComponent!: ServiceListComponent;
 
   constructor() { }
 
@@ -32,6 +33,7 @@ export class ServicesComponent {
   }
 
   serviceEditSubmitted() {
+    this.serviceListComponent.refreshList();
     this.showEditComponent = false;
   }
 }
