@@ -27,6 +27,7 @@ export class ServicesComponent {
 
   addServiceClicked() {
     this.showEditComponent = true;
+    this.toServiceId = -1;
   }
 
   serviceEditCancel() {

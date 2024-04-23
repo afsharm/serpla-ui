@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ServiceService } from '../../services/service.service';
-import { ServiceCreate } from '../../models/service.model';
+import { ServiceCreate, ServiceUpdate } from '../../models/service.model';
 
 @Component({
   selector: 'app-service-edit',
@@ -24,11 +24,19 @@ export class ServiceEditComponent {
   name = new FormControl('', [Validators.required]);
   errorMessage = '';
   isEdit: boolean = false;
+  serviceEditId!: number;
 
   constructor(private serviceService: ServiceService) {
     merge(this.name.statusChanges, this.name.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
+  }
+
+  resetFields() {
+    console.log('resetFields');
+    this.isEdit = false;
+    this.serviceEditId = 0;
+    this.name.setValue('');
   }
 
   updateErrorMessage() {
@@ -40,18 +48,32 @@ export class ServiceEditComponent {
   }
 
   cancelClicked() {
+    this.resetFields();
     this.onCancel.emit();
   }
 
   onSubmit() {
-    const serviceCreate: ServiceCreate = { name: this.name.value };
 
-    this.serviceService.createService(serviceCreate).subscribe(response => {
-      console.log('Service created successfully:', response);
-      this.onSubmitted.emit();
-    }, error => {
-      console.error('Error creating service:', error);
-    });
+    if (this.isEdit) {
+      const serviceUpdate: ServiceUpdate = { id: this.serviceEditId, name: this.name.value };
+
+      this.serviceService.updateService(serviceUpdate).subscribe(response => {
+        console.log('Service updated successfully:', response);
+        this.onSubmitted.emit();
+      }, error => {
+        console.error('Error updating service:', error);
+      });
+    }
+    else {
+      const serviceCreate: ServiceCreate = { name: this.name.value };
+
+      this.serviceService.createService(serviceCreate).subscribe(response => {
+        console.log('Service created successfully:', response);
+        this.onSubmitted.emit();
+      }, error => {
+        console.error('Error creating service:', error);
+      });
+    }
 
   }
 
@@ -60,6 +82,7 @@ export class ServiceEditComponent {
       console.log('Service fetched successfully:', response);
       this.name.setValue(response.name);
       this.isEdit = true;
+      this.serviceEditId = serviceId;
     }, error => {
       console.error('Error fetching service:', error);
     });
@@ -73,6 +96,7 @@ export class ServiceEditComponent {
     // You can act on the changes here. You will have both the previous
     // value and the  current value here.
 
-    this.prepareEdit(change.currentValue);
+    if (change.currentValue > 0)
+      this.prepareEdit(change.currentValue);
   }
 }

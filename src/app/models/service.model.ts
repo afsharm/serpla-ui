@@ -6,3 +6,8 @@ export interface Service {
 export interface ServiceCreate {
   name: string | null;
 }
+
+export interface ServiceUpdate {
+  id: number;
+  name: string | null;
+}
