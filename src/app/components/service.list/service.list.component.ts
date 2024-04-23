@@ -6,6 +6,8 @@ import {
 } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { Service } from '../../models/service.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-service-list',
@@ -19,7 +21,7 @@ export class ServiceListComponent {
   displayedColumns: string[] = ['id', 'name', 'update', 'delete'];
   @Output() onUpdate: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private serviceService: ServiceService) { }
+  constructor(private serviceService: ServiceService, private matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.refreshList();
@@ -31,17 +33,17 @@ export class ServiceListComponent {
         this.dataSource = new MatTableDataSource(services);
       },
       (error) => {
-        console.error('Error fetching services:', error);
+        this.matSnackBar.open(_.truncate(`Error fetching the services. ${error.message}`, { length: 100 }));
       }
     );
   }
 
   deleteItem(elementId: number) {
     this.serviceService.deleteService(elementId).subscribe(response => {
-      console.log('Service deleted successfully:', response);
+      this.matSnackBar.open('Service deleted successfully');
       this.refreshList();
     }, error => {
-      console.error('Error creating service:', error);
+      this.matSnackBar.open(_.truncate(`Error deleting a service. ${error.message}`, { length: 100 }));
     });
 
   }

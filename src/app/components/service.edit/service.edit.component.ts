@@ -6,6 +6,8 @@ import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ServiceService } from '../../services/service.service';
 import { ServiceCreate, ServiceUpdate } from '../../models/service.model';
+import { MatSnackBar } from '@angular/material/snack-bar'
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-service-edit',
@@ -26,7 +28,7 @@ export class ServiceEditComponent {
   isEdit: boolean = false;
   serviceEditId!: number;
 
-  constructor(private serviceService: ServiceService) {
+  constructor(private serviceService: ServiceService, private matSnackBar: MatSnackBar) {
     merge(this.name.statusChanges, this.name.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -58,20 +60,20 @@ export class ServiceEditComponent {
       const serviceUpdate: ServiceUpdate = { id: this.serviceEditId, name: this.name.value };
 
       this.serviceService.updateService(serviceUpdate).subscribe(response => {
-        console.log('Service updated successfully:', response);
+        this.matSnackBar.open('Service updated successfully:');
         this.onSubmitted.emit();
       }, error => {
-        console.error('Error updating service:', error);
+        this.matSnackBar.open(_.truncate(`Error updating service. ${error.message}`, { length: 100 }));
       });
     }
     else {
       const serviceCreate: ServiceCreate = { name: this.name.value };
 
       this.serviceService.createService(serviceCreate).subscribe(response => {
-        console.log('Service created successfully:', response);
+        this.matSnackBar.open('Service created successfully');
         this.onSubmitted.emit();
       }, error => {
-        console.error('Error creating service:', error);
+        this.matSnackBar.open(_.truncate(`Error creating service. ${error.message}`, { length: 100 }));
       });
     }
 
