@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
-import { LayoutComponent } from '../layout/layout.component';
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatFormField } from '@angular/material/form-field';
@@ -10,7 +9,7 @@ import { ServiceEditComponent } from '../service.edit/service.edit.component';
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [MatToolbarModule, RouterLink, LayoutComponent, CommonModule,
+  imports: [MatToolbarModule, RouterLink, CommonModule,
     MatFormField, MatPaginator, ServiceListComponent, ServiceEditComponent],
   providers: [],
   templateUrl: './services.component.html',
