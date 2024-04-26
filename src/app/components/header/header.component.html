@@ -1,10 +1,25 @@
-<mat-toolbar color="primary">Serpla-UI</mat-toolbar>
+<mat-toolbar color="primary">
 
-<header>
-    <nav>
-        <ul>
-            <li><a routerLink="/">Dashboard</a></li>
-            <li><a routerLink="/services">Services</a></li>
-        </ul>
-    </nav>
-</header>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+
+        <a mat-menu-item routerLink="/">
+            <mat-icon>home</mat-icon>
+            Home
+        </a>
+
+        <a mat-menu-item routerLink="/services">
+            <mat-icon>local_mall</mat-icon>
+            Services
+        </a>
+
+    </mat-menu>
+
+    <span>
+        Serpla-UI
+    </span>
+
+</mat-toolbar>
