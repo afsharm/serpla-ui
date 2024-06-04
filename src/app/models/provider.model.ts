@@ -5,6 +5,7 @@ export interface Provider {
 
 export interface ProviderCreate {
   name: string | null;
+  serviceId: number | null;
 }
 
 export interface ProviderUpdate {
