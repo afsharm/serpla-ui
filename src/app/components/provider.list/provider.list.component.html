@@ -1,1 +1,20 @@
-<p>provider.list works!</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Service</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of dataSource">
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.name }}</td>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+        </tr>
+    </tbody>
+</table>
