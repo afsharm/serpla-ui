@@ -1,3 +1,18 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Providers</h1>
 </div>
+
+<ng-container *ngIf="showEditComponent; then providerEdit else providerList"></ng-container>
+
+<ng-template #providerEdit>
+    <app-provider-edit (onCancel)="providerEditCancel()" (onSubmitted)="providerEditSubmitted()"
+        [providerId]="toProviderId" />
+</ng-template>
+
+<br />
+
+<ng-template #providerList>
+    <button mat-raised-button (click)="addProviderClicked()">Add a new provider</button>
+</ng-template>
+
+<app-provider-list (onUpdate)="onUpdateProvider($event)" />
