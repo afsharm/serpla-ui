@@ -2,8 +2,8 @@
 
     <div class="form-group">
         <label for="serviceDropdown">Select a service:</label>
-        <select class="form-control" id="serviceDropdown" name="serviceDropdown" [(ngModel)]="entity.serviceId"
-            required>
+        <select class="form-control" id="serviceDropdown" name="serviceDropdown" [(ngModel)]="entity.serviceId" required
+            [disabled]="isEdit">
             <option *ngFor="let service of servicesList" [value]="service.id">{{ service.name }}</option>
         </select>
     </div>
