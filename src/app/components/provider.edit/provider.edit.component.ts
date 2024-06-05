@@ -86,6 +86,7 @@ export class ProviderEditComponent implements OnInit {
     this.providerService.getProvider(providerId).subscribe(response => {
       console.log('Provider fetched successfully:', response);
       this.entity.name = response.name;
+      this.entity.serviceId = response.serviceId;
       this.isEdit = true;
       this.providerEditId = providerId;
     }, error => {

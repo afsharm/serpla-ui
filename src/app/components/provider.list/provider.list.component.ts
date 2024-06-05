@@ -33,4 +33,7 @@ export class ProviderListComponent implements OnInit {
     );
   }
 
+  updateItem(providerId: number) {
+    this.onUpdate.emit(providerId);
+  }
 }

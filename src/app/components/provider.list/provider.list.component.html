@@ -13,7 +13,11 @@
             <th scope="row">{{ item.id }}</th>
             <td>{{ item.name }}</td>
             <td>{{ item.serviceName }}</td>
-            <td>.</td>
+            <td>
+                <button type="button" class="btn btn-link" (click)="updateItem(item.id)">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
             <td>.</td>
         </tr>
     </tbody>

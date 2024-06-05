@@ -20,7 +20,8 @@ export class ProviderService {
   }
 
   getProvider(providerId: number): Observable<Provider> {
-    throw new Error('Method not implemented.');
+    const url = `${this.baseApiUrl}${this.providersUrl}/${providerId}`;
+    return this.http.get<Provider>(url);
   }
 
   createProvider(providerCreate: ProviderCreate): Observable<any> {
