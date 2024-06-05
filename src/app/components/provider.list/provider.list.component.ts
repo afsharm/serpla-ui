@@ -36,4 +36,14 @@ export class ProviderListComponent implements OnInit {
   updateItem(providerId: number) {
     this.onUpdate.emit(providerId);
   }
+
+  deleteItem(providerId: number) {
+    this.providerService.deleteProvider(providerId).subscribe(response => {
+      this.matSnackBar.open('Provider deleted successfully');
+      this.refreshList();
+    }, error => {
+      this.matSnackBar.open(_.truncate(`Error deleting a provider. ${error.message}`, { length: 100 }));
+    });
+
+  }
 }

@@ -18,7 +18,11 @@
                     <i class="fas fa-edit"></i>
                 </button>
             </td>
-            <td>.</td>
+            <td>
+                <button type="button" class="btn btn-link" (click)="deleteItem(item.id)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>
