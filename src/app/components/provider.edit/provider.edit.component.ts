@@ -70,7 +70,7 @@ export class ProviderEditComponent implements OnInit {
       });
     }
     else {
-      const providerCreate: ProviderCreate = { name: this.entity.name, serviceId: null };
+      const providerCreate: ProviderCreate = { name: this.entity.name, serviceId: this.entity.serviceId };
 
       this.providerService.createProvider(providerCreate).subscribe(response => {
         this.matSnackBar.open('Provider created successfully');
