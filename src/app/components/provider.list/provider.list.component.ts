@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Provider } from '../../models/provider.model'
+import { Provider, ProviderQueryResult } from '../../models/provider.model'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProviderService } from '../../services/provider.service';
 import _ from 'lodash';
@@ -23,14 +23,21 @@ export class ProviderListComponent implements OnInit {
   }
 
   refreshList() {
-    this.providerService.getProviders().subscribe(
-      (providers: Provider[]) => {
-        this.dataSource = providers;
-      },
-      (error) => {
-        this.matSnackBar.open(_.truncate(`Error fetching the providers. ${error.message}`, { length: 100 }));
-      }
-    );
+    this.providerService.getProviders(
+      {
+        criteria: '',
+        pageNumber: 1,
+        pageSize: 10,
+        sortField: 'name',
+        sortOrder: 'Asc'
+      }).subscribe(
+        (providers: ProviderQueryResult) => {
+          this.dataSource = providers.items;
+        },
+        (error) => {
+          this.matSnackBar.open(_.truncate(`Error fetching the providers. ${error.message}`, { length: 100 }));
+        }
+      );
   }
 
   updateItem(providerId: number) {

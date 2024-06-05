@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Provider, ProviderCreate, ProviderUpdate } from '../models/provider.model';
+import { Provider, ProviderCreate, ProviderQueryResult, ProviderUpdate } from '../models/provider.model';
 import { environment } from '../../environments/environment';
+import { ProviderPagingQuery } from '../models/provider.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class ProviderService {
 
   constructor(private http: HttpClient) { }
 
-  getProviders(): Observable<Provider[]> {
-    return this.http.get<Provider[]>(this.baseApiUrl + this.providersUrl);
+  getProviders(query: ProviderPagingQuery): Observable<ProviderQueryResult> {
+    return this.http.get<ProviderQueryResult>(`${this.baseApiUrl}${this.providersUrl}?criteria=${query.criteria}&pageNumber=${query.pageNumber}&pageSize=${query.pageSize}&sortField=${query.sortField}&sortOrder=${query.sortOrder}`);
   }
 
   getProvider(providerId: number): Observable<Provider> {
