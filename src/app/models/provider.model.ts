@@ -1,6 +1,7 @@
 export interface Provider {
   id: number;
   name: string;
+  serviceName: string;
 }
 
 export interface ProviderCreate {
